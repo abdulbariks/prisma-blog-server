@@ -13,6 +13,12 @@ datasource db {
   provider = "postgresql"
 }
 
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+}
 model Post {
   id         String     @id @default(uuid())
   title      String     @db.VarChar(225)
