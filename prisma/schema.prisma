@@ -12,29 +12,28 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-
-model Blog {
-  id        String   @id @default(uuid())
-  title     String
-  content   String?
-  createdAt DateTime @default(now())
-}
 model Post {
-  id         String     @id @default(uuid())
-  title      String     @db.VarChar(225)
-  content    String     @db.Text
-  thumbnail  String?
-  isFeatured Boolean    @default(false)
-  status     PostStatus @default(PUBLISHED)
-  tags       String[]
-  views      Int        @default(0)
-  authorId   String // better auth
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  comments   Comment[]
+    id         String     @id @default(uuid())
+    title      String     @db.VarChar(225)
+    content    String     @db.Text
+    thumbnail  String?
+    isFeatured Boolean    @default(false)
+    status     PostStatus @default(PUBLISHED)
+    tags       String[]
+    views      Int        @default(0)
+    authorId   String? // better auth
+    createdAt  DateTime   @default(now())
+    updatedAt  DateTime   @updatedAt
+    comments   Comment[]
 
-  @@index([authorId])
-  @@map("posts")
+    @@index([authorId])
+    @@map("posts")
+}
+
+enum PostStatus {
+    DRAFT
+    PUBLISHED
+    ARCHIVED
 }
 
 model Comment {
@@ -56,11 +55,7 @@ model Comment {
   @@map("comments")
 }
 
-enum PostStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
+
 
 enum CommentStatus {
   APPROVED
